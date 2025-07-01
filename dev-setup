@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Script de configuración para desarrollo de fintrace-report-ms
+
+echo "🚀 Configurando entorno de desarrollo para fintrace-report-ms..."
+
+# Verificar que estamos en el directorio correcto
+if [ ! -f "package.json" ]; then
+    echo "❌ Error: No se encontró package.json. Asegúrate de estar en el directorio fintrace-report-ms"
+    exit 1
+fi
+
+# Instalar dependencias
+echo "📦 Instalando dependencias..."
+npm install
+
+if [ $? -ne 0 ]; then
+    echo "❌ Error al instalar dependencias"
+    exit 1
+fi
+
+echo "✅ Dependencias instaladas correctamente"
+
+# Construir el proyecto
+echo "🔨 Construyendo el proyecto..."
+npm run build
+
+if [ $? -eq 0 ]; then
+    echo "✅ Proyecto construido correctamente"
+else
+    echo "❌ Error al construir el proyecto"
+    exit 1
+fi
+
+# Construir imagen Docker de desarrollo
+echo "🐳 Construyendo imagen Docker de desarrollo..."
+docker build -f Dockerfile.dev -t fintrace-report-dev .
+
+if [ $? -eq 0 ]; then
+    echo "✅ Imagen Docker construida correctamente"
+else
+    echo "❌ Error al construir imagen Docker"
+    exit 1
+fi
+
+echo ""
+echo "🎉 Configuración de desarrollo completada exitosamente!"
+echo ""
+echo "📋 Comandos disponibles:"
+echo "1. Iniciar contenedor de desarrollo: docker-compose -f docker-compose.dev.yml up"
+echo "2. Ejecutar en modo desarrollo local: npm run dev"
+echo "3. Construir para producción: npm run build"
+echo ""
+echo "🌐 La aplicación estará disponible en: http://localhost:3004" 

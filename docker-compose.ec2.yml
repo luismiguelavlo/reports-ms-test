@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  fintrace-ec2:
+    build:
+      context: .
+      dockerfile: Dockerfile.ec2
+    image: fintrace-ec2:latest
+    container_name: fintrace-ec2
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=production
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PORT=3004
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - fintrace-network
+
+networks:
+  fintrace-network:
+    driver: bridge

@@ -29,7 +29,7 @@ interface ParsedIncomeExpensesData {
 export class PDFService {
   private static readonly TEMPLATE_PATH = resolve(
     process.cwd(),
-    "template",
+    process.env.NODE_ENV === "development" ? "src/template" : "template",
     "template.html"
   );
 
@@ -1172,13 +1172,10 @@ export class PDFService {
    * @returns Buffer del PDF
    */
   private async renderPDF(htmlContent: string): Promise<Buffer> {
-    // Configurar Chromium para Lambda
-    const executablePath = await chromiumConfig.executablePath();
-
     const browser = await puppeteer.launch({
       args: chromiumConfig.args,
       defaultViewport: chromiumConfig.defaultViewport,
-      executablePath,
+      executablePath: chromiumConfig.executablePath,
       headless: chromiumConfig.headless,
     });
 
