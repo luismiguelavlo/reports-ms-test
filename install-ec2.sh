@@ -16,9 +16,9 @@ sudo apt-get install -y \
     fonts-thai-tlwg \
     fonts-freefont-ttf \
     libxss1 \
-    libasound2 \
-    libatk1.0-0 \
-    libcups2 \
+    libasound2t64 \
+    libatk1.0-0t64 \
+    libcups2t64 \
     libdbus-1-3 \
     libgdk-pixbuf2.0-0 \
     libnspr4 \
@@ -31,7 +31,7 @@ sudo apt-get install -y \
     libvulkan1 \
     libxshmfence1 \
     libgbm1 \
-    libgtk-3-0 \
+    libgtk-3-0t64 \
     --no-install-recommends
 
 # Verificar instalación
