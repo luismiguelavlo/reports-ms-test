@@ -23,7 +23,7 @@ WORKDIR /app
 # Install system dependencies and Chromium
 RUN apt-get update && \
     apt-get install -y \
-    chromium-browser \
+    chromium \
     fonts-ipafont-gothic \
     fonts-wqy-zenhei \
     fonts-thai-tlwg \
@@ -59,7 +59,7 @@ RUN npm ci --only=production
 
 # Set environment variables
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV NODE_ENV=production
 ENV PORT=3004
 
