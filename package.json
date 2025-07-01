@@ -1,0 +1,26 @@
+{
+  "name": "chartest",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "node esbuild.config.js",
+    "zip": "zip -j lambda.zip dist/index.js",
+    "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
+    "deploy": "run-s build zip update"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "esbuild": "^0.25.5",
+    "npm-run-all2": "6.2.0",
+    "tsx": "4.19.4"
+  },
+  "dependencies": {
+    "@hono/node-server": "1.14.4",
+    "@sparticuz/chromium": "^137.0.1",
+    "echarts": "5.6.0",
+    "hono": "4.7.11",
+    "puppeteer-core": "24.10.0",
+    "superagent": "^10.2.1",
+    "zod": "3.25.56"
+  }
+}

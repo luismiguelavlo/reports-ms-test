@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  fintrace-api:
+    build: .
+    image: fintrace-lambda:latest
+    container_name: fintrace-api
+    ports:
+      - "3200:3000"
+    environment:
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    # Si necesitas montar archivos locales, descomenta:
+    # volumes:
+    #   - ./src/template:/app/src/template

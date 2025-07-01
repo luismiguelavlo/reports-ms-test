@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reporte Financiero</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Nunito Sans", sans-serif;
+        font-size: 12px;
+        line-height: 1.6;
+        color: #2c3e50;
+        padding: 0px;
+
+        margin: 0px;
+      }
+
+      .page {
+        min-height: 80vh;
+        page-break-inside: avoid;
+        margin: 0px;
+        padding: 40px;
+        padding-top: 60px;
+        background-repeat: no-repeat;
+        background-image: url("https://res.cloudinary.com/dtqnooo38/image/upload/v1749654460/fintrace/reports/logo_xmiwkk.svg");
+        background-position: 25px 0;
+      }
+
+      .page-1 {
+        page-break-after: always;
+      }
+
+      .page-2 {
+        page-break-after: always;
+      }
+
+      .page-3 {
+        page-break-after: always;
+      }
+
+      .page-4 {
+        page-break-after: always;
+      }
+
+      .page-5 {
+        page-break-after: always;
+      }
+
+      .page-6 {
+        page-break-after: always;
+      }
+
+      .page-7 {
+        page-break-after: always;
+      }
+
+      .page-8 {
+        page-break-after: always;
+      }
+
+      .page-9 {
+        page-break-after: auto;
+      }
+
+      .page h1 {
+        color: #12243f;
+        text-align: center;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Nunito Sans";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-transform: uppercase;
+      }
+
+      .info-table {
+        padding: 0px;
+        margin: 0px;
+        font-family: var(--font-primary);
+      }
+
+      .info-table td {
+        padding: 0px;
+        margin: 0px;
+        padding-right: 11px;
+        border: none;
+        vertical-align: top;
+      }
+
+      .info-table tr {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      .page h2 {
+        color: #12243f;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Nunito Sans";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-transform: uppercase;
+      }
+
+      .info-table .label {
+        color: #36959e;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Nunito Sans";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+
+      .info-table .value {
+        color: #12243f;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Nunito Sans";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+      }
+
+      .report-list {
+        margin-left: 20px;
+      }
+
+      .chart-page {
+        padding-top: 50px;
+      }
+
+      .mb-14 {
+        margin-bottom: 14px !important;
+      }
+
+      .mt-14 {
+        margin-top: 14px !important;
+      }
+
+      .chart-container {
+        width: 100%;
+        height: 328px;
+        margin-bottom: 20px;
+        max-width: none;
+      }
+      .chart-container-yields-small {
+        width: 100%;
+        height: 365px;
+        margin-bottom: 20px;
+        max-width: none;
+      }
+      .chart-container-yields-large {
+        width: 100%;
+        height: 642px;
+        margin-bottom: 20px;
+        max-width: none;
+      }
+      .chart-container-yields-xl {
+        width: 100%;
+        height: 656px;
+        margin-bottom: 20px;
+        max-width: none;
+      }
+      .chart-container-yields-xxl {
+        width: 100%;
+        height: 945px;
+        margin-bottom: 20px;
+        max-width: none;
+      }
+      .chart-title {
+        text-align: center;
+        color: #007acc;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+      }
+
+      .chart-description {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #007acc;
+        margin: 20px 0;
+      }
+
+      .bank-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: "Nunito Sans", sans-serif;
+        font-size: 10px;
+        break-inside: avoid;
+      }
+      .bank-table thead {
+        background-color: #bae5e7;
+      }
+
+      .bank-table th {
+        padding: 4px 2px;
+        text-align: left;
+        font-weight: bold;
+        color: #12243f;
+        border: none;
+      }
+
+      .bank-table td {
+        padding: 4px 2px;
+        border: none;
+        color: #12243f;
+      }
+
+      .bank-table tbody tr:nth-child(even) {
+        background-color: rgba(186, 229, 231, 0.25);
+      }
+
+      .bank-table tbody tr:nth-child(odd) {
+        background-color: white;
+      }
+
+      .report-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #36959e;
+        margin-bottom: 20px;
+      }
+
+      .report-title-h3 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #12243f;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+
+      .content-main-title {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        width: 100%;
+        justify-content: space-between;
+        border-radius: 5.19px;
+        background: linear-gradient(90deg, #36959e 0%, #fff 100%);
+        height: 50px !important;
+      }
+
+      .content-title-container {
+        display: flex;
+        padding: 8px 10px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 5.19px;
+      }
+
+      .content-title-text {
+        color: #f1faf9 !important;
+        font-family: "Nunito Sans";
+        font-size: 22.758px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+        text-transform: uppercase;
+      }
+
+      .content-title-icon-green {
+        width: 20px;
+        height: 20px;
+        margin: 0px;
+        display: flex;
+        align-items: center;
+      }
+
+      .content-title {
+        display: flex;
+        padding-left: 10px;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 5.19px;
+        background: linear-gradient(90deg, #36959e 0%, #fff 100%);
+      }
+
+      .content-title img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+
+      .content-title-text {
+        color: #f1faf9 !important;
+        font-feature-settings: "liga" off, "clig" off;
+        font-family: "Nunito Sans";
+        font-size: 22.758px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+        text-transform: uppercase;
+      }
+
+      .text-astra {
+        color: #36959e !important;
+        font-size: 22.758px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+        text-transform: uppercase;
+      }
+
+      .content-perspectives {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+      }
+
+      .content-perspectives p {
+        color: #162e36;
+        font-family: "Nunito Sans";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 10px 16px;
+        border-radius: 5.19px;
+        background: #f6f6f6;
+        margin-bottom: 0px;
+      }
+
+      .content-perspectives p:last-child {
+        margin-bottom: 0;
+      }
+
+      .content-recommendations {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+      }
+
+      .content-recommendations p {
+        color: #162e36;
+        font-family: "Nunito Sans";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding: 10px 16px;
+        border-radius: 5.19px;
+        background: #f1faf9;
+        margin-bottom: 0px;
+      }
+
+      .content-recommendations p:last-child {
+        margin-bottom: 0;
+      }
+
+      .content-positive-header,
+      .content-negative-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 0px !important;
+        padding: 0px !important;
+        text-align: center !important;
+      }
+
+      .content-positive {
+        display: flex;
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 15.569px;
+        border: 1.297px solid rgba(54, 149, 158, 0.5);
+        background: #f1faf9;
+        backdrop-filter: blur(25.947710037231445px);
+      }
+
+      .content-positive-title {
+        color: #162e36;
+        font-family: "Nunito Sans";
+        font-size: 18px;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0px;
+        text-align: center;
+      }
+
+      .content-positive-item p {
+        display: flex;
+        padding: 5.19px 10.379px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: start;
+        gap: 12.974px;
+        align-self: stretch;
+        border-radius: 10.379px;
+        background: #bae5e7;
+        margin-bottom: 10px;
+      }
+
+      .content-negative {
+        display: flex;
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 15.569px;
+        border: 1.297px solid rgba(210, 106, 97, 0.5);
+        background: #fcf5f4;
+        backdrop-filter: blur(25.947710037231445px);
+      }
+
+      .content-negative-title {
+        color: #3a1714;
+        font-family: "Nunito Sans";
+        font-size: 18px;
+        margin-bottom: 0px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        text-align: center;
+        margin: 0px;
+      }
+
+      .content-negative-item p {
+        display: flex;
+        padding: 5.19px 10.379px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: start;
+        gap: 12.974px;
+        align-self: stretch;
+        border-radius: 10.379px;
+        background: #f5d6d3;
+        margin-bottom: 10px;
+      }
+
+      .content-bank-analytics {
+        display: flex;
+        min-width: 259.477px;
+        padding: 10px 10px 10px 20px;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+        margin-bottom: 14px;
+        border-radius: 5.19px;
+        backdrop-filter: blur(25.947710037231445px);
+      }
+
+      .blue-gradient {
+        background: linear-gradient(
+          90deg,
+          #8091d7 10.05%,
+          rgba(255, 255, 255, 0) 99.94%
+        );
+      }
+
+      .yellow-gradient {
+        background: linear-gradient(
+          90deg,
+          #d7d480 10.05%,
+          rgba(255, 255, 255, 0) 99.94%
+        );
+      }
+
+      .red-gradient {
+        background: linear-gradient(
+          90deg,
+          #d78080 10.05%,
+          rgba(255, 255, 255, 0) 99.94%
+        );
+      }
+
+      .green-gradient {
+        background: linear-gradient(
+          90deg,
+          #86c78f 10.05%,
+          rgba(255, 255, 255, 0) 99.93%
+        );
+      }
+
+      .orange-gradient {
+        background: linear-gradient(
+          90deg,
+          #ffc481 10.05%,
+          rgba(255, 255, 255, 0) 99.93%
+        );
+      }
+
+      .pink-gradient {
+        background: linear-gradient(
+          90deg,
+          #ffabf1 10.05%,
+          rgba(255, 255, 255, 0) 99.93%
+        );
+      }
+
+      .purple-gradient {
+        background: linear-gradient(
+          90deg,
+          #b278ff 10.05%,
+          rgba(255, 255, 255, 0) 99.93%
+        );
+      }
+
+      .grey-gradient {
+        background: linear-gradient(
+          90deg,
+          #c0c0c0 10.05%,
+          rgba(255, 255, 255, 0) 99.93%
+        );
+      }
+
+      .content-bank-analytics-logo {
+        width: 25%;
+      }
+
+      .content-bank-analytics-logo p {
+        color: #12243f;
+        font-family: "Nunito Sans";
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0px;
+        text-align: left;
+      }
+
+      .content-bank-analytics-text {
+        width: 75%;
+      }
+
+      .content-bank-analytics-text p {
+        color: #12243f;
+        font-family: "Nunito Sans";
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.4;
+        margin: 0px;
+        text-align: justify;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 2px solid #007acc;
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .capitalize {
+        text-transform: capitalize;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PRIMERA PÁGINA -->
+    <div class="page page-1">
+      <h1>REPORTE FINANCIERO FINTRACE</h1>
+
+      <table class="info-table mb-14">
+        <tr>
+          <td class="label">Fecha de Generación:</td>
+          <td class="value">{{ generationDate }}</td>
+        </tr>
+        <tr>
+          <td class="label">Periodicidad Analizado:</td>
+          <td class="value capitalize">{{ periodicity }}</td>
+        </tr>
+        <tr>
+          <td class="label">Período Analizado:</td>
+          <td class="value">{{ analysisPeriod }}</td>
+        </tr>
+      </table>
+      <h2 class="report-title">REPORTE DE SALDOS</h2>
+      <p>
+        A continuación se presenta el resumen del saldo consolidado de {{
+        accountCount }} cuentas en {{ bankCount }} bancos y la respectiva
+        variación porcentual respecto al periodo anterior:
+      </p>
+      <ul class="report-list">
+        <li class="report-list-item">
+          Saldo final: {{ finalBalance }} ({{ finalBalanceWords }})
+        </li>
+        <li class="report-list-item">
+          Variación porcentual: {{ percentageVariation }}
+        </li>
+      </ul>
+      <p>
+        En la siguiente tabla se presenta información de los saldos de las
+        principales cuentas:
+      </p>
+
+      {{ balanceTable }}
+    </div>
+
+    <!-- SEGUNDA PÁGINA - INGRESOS Y EGRESOS -->
+    <div class="page page-2">
+      <h2 class="report-title mb-14">REPORTE DE INGRESOS Y EGRESOS</h2>
+      <p>
+        A continuación se presenta el resumen consolidado de ingresos, gastos y
+        flujo de caja, con sus respectivas variaciones porcentuales, respecto al
+        periodo anterior:
+      </p>
+      <ul class="report-list">
+        <li class="report-list-item">
+          Ingresos: {{ income }} ({{ income_variation }})
+        </li>
+        <li class="report-list-item">
+          Gastos: {{ expenses }} ({{ expenses_variation }})
+        </li>
+        <li class="report-list-item">
+          Flujo de caja: {{ cash_flow }} ({{ cash_flow_variation }})
+        </li>
+      </ul>
+      <p>
+        En la siguiente tabla se presentan los ingresos más altos del periodo:
+      </p>
+
+      {{ incomeTable }}
+
+      <p>
+        En la siguiente tabla se presentan los gastos más altos del periodo:
+      </p>
+
+      {{ expenseTable }}
+
+      <p>
+        En la siguiente grafica se presentan las cuentas con mayor cantidad de
+        transacciones en cifras:
+      </p>
+      <h3 class="report-title-h3 mb-14">Ingresos y Egresos en cifras</h3>
+      <div id="chartContainer" class="chart-container"></div>
+    </div>
+
+    <div class="page page-3">
+      <p>
+        En la siguiente gráfica se presentan las cuentas con mayor cantidad de
+        transacciones:
+      </p>
+      <h3 class="report-title-h3 mb-14">Ingresos & Egresos # transacciones</h3>
+      <div id="chartContainer2" class="chart-container"></div>
+    </div>
+
+    <div class="page page-4">
+      <h2 class="report-title mb-14">REPORTE DE RENDIMIENTOS Y COSTOS</h2>
+      <p>
+        A continuación se presenta el resumen consolidado de rendimientos y
+        costos para el periodo analizado
+      </p>
+      <ul class="report-list">
+        <li class="report-list-item">Rendimiento: {{ performance }}</li>
+        <li class="report-list-item">Costos: {{ costs }}</li>
+        <li class="report-list-item">Rentabilidad neta: {{ net_profit }}</li>
+      </ul>
+      <p>
+        En la siguiente tabla se presentan las cuentas con mejores tasas de
+        rentabilidad neta:
+      </p>
+
+      {{ yieldsCostsTable }}
+    </div>
+
+    <div class="page page-5">
+      <p>
+        En la siguientes gráficas se detallan los rendimientos y costos por
+        banco y la rentabilidad neta por banco:
+      </p>
+      <h3 class="report-title-h3 mb-14">Rendimientos y costos</h3>
+      <div id="chartContainer3" class="{{yieldsChartClass}}"></div>
+    </div>
+
+    <div class="page page-6">
+      <p>
+        En la siguiente gráfica se detallan las cuentas con mejores tasas de
+        rentabilidad neta:
+      </p>
+      <h3 class="report-title-h3 mb-14">Rentabilidad neta</h3>
+      <div id="chartContainer4" class="{{netRevenueChartClass}}"></div>
+    </div>
+
+    <div class="page page-7">
+      <div class="content-main-title mb-14">
+        <div class="content-title-container">
+          <h2 class="content-title-text">REPORTE DE PREDICCIONES</h2>
+        </div>
+        <div class="content-title-container">
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654457/fintrace/reports/chispas_verdes_resjnb.svg"
+            class="content-title-icon-green"
+          />
+          <h2 class="text-astra">ASTRA AI</h2>
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654457/fintrace/reports/chispas_verdes_resjnb.svg"
+            class="content-title-icon-green"
+          />
+        </div>
+      </div>
+      <p class="mb-14">
+        A continuación se presentan las predicciones para periodos futuros,
+        basadas en el comportamiento histórico de los datos. Tenga en cuenta que
+        las predicciones son estimaciones y no garantizan resultados exactos,
+        aún con un alto nivel de precisión.
+      </p>
+      <h3 class="report-title-h3 mb-14">Ingresos, Egresos & flujo de caja</h3>
+      <div id="chartContainer5" class="chart-container"></div>
+      <h3 class="report-title-h3 mb-14">
+        Rendimiento, Costos y Rentabilidad Neta
+      </h3>
+      <div id="chartContainer6" class="chart-container"></div>
+    </div>
+
+    <div class="page page-8">
+      <div class="content-title mb-14">
+        <div class="content-title-icon">
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654454/fintrace/reports/chispas_dxwimc.svg"
+            class="content-title-icon-green"
+          />
+        </div>
+        <h2 class="content-title-text">PERSPECTIVAS</h2>
+      </div>
+
+      <div class="content-perspectives">{{ aiInsights }}</div>
+
+      <div class="content-title mb-14 mt-14">
+        <div class="content-title-icon">
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654454/fintrace/reports/chispas_dxwimc.svg"
+            class="content-title-icon-green"
+          />
+        </div>
+        <h2 class="content-title-text">RECOMENDACIONES</h2>
+      </div>
+
+      <div class="content-recommendations">{{ aiRecommendations }}</div>
+    </div>
+
+    <div class="page page-9">
+      <div class="content-title mb-14">
+        <div class="content-title-icon">
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654454/fintrace/reports/chispas_dxwimc.svg"
+            class="content-title-icon-green"
+          />
+        </div>
+        <h2 class="content-title-text">OBSERVACIONES IMPORTANTES</h2>
+      </div>
+
+      <div class="content-positive mb-14">
+        <div class="content-positive-header">
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654451/fintrace/reports/check_dw8cp3.svg"
+            class="content-title-icon-green"
+            alt=""
+          />
+          <h3 class="content-positive-title">Positivas</h3>
+        </div>
+        <div class="content-positive-item">{{ aiPositiveFindings }}</div>
+      </div>
+
+      <div class="content-negative">
+        <div class="content-negative-header">
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654466/fintrace/reports/alert_fyvhdq.svg"
+            class="content-title-icon-green"
+            alt=""
+          />
+          <h3 class="content-negative-title">Requieren atención</h3>
+        </div>
+        <div class="content-negative-item">{{ aiNegativeFindings }}</div>
+      </div>
+    </div>
+
+    <div class="page page-10">
+      <div class="content-title mb-14">
+        <div class="content-title-icon">
+          <img
+            src="https://res.cloudinary.com/dtqnooo38/image/upload/v1749654454/fintrace/reports/chispas_dxwimc.svg"
+            class="content-title-icon-green"
+          />
+        </div>
+        <h2 class="content-title-text">ANÁLISIS POR BANCO</h2>
+      </div>
+
+      {{ bankAnalysisCards }}
+    </div>
+
+    <script>
+      // Configuración del primer gráfico ECharts (valores monetarios)
+      function initChart() {
+        const chartDom = document.getElementById('chartContainer');
+
+        // Si no existe el contenedor del gráfico, marcar como listo y salir
+        if (!chartDom) {
+          console.log('No chart container found, skipping chart initialization');
+          window.chartReady = true;
+          return;
+        }
+
+        const myChart = echarts.init(chartDom);
+
+        // Datos dinámicos que serán reemplazados
+        const yAxisData = {{yAxisData}};
+        const incomeData = {{incomeData}};
+        const expenseData = {{expenseData}};
+
+        const option = {
+          legend: {
+            data: ['Egresos', 'Ingresos'],
+            textStyle: {
+              fontSize: 9,
+              color: '#12243F'
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '10%',
+            bottom: '5%',
+            top: '12%',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: 'value',
+              axisLabel: {
+                fontSize: 9,
+                color: '#12243F',
+
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'category',
+              axisLabel: {
+                margin: 5,
+                fontSize: 9,
+                color: '#12243F',
+
+                lineHeight: 12,
+                interval: 0
+              },
+              axisTick: {
+                show: false
+              },
+              data: yAxisData
+            }
+          ],
+          series: [
+            {
+              name: 'Ingresos',
+              type: 'bar',
+              stack: 'Total',
+              color: '#80E0C7',
+              label: {
+                show: true,
+                position: 'right',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: incomeData,
+              itemStyle: {
+                borderRadius: [0, 5, 5, 0]
+              }
+            },
+            {
+              name: 'Egresos',
+              type: 'bar',
+              stack: 'Total',
+              color: '#FFB6BB',
+              label: {
+                show: true,
+                position: 'left',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + Math.abs(params.value).toLocaleString();
+                }
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: expenseData,
+              itemStyle: {
+                borderRadius: [5, 0, 0, 5]
+              }
+            }
+          ]
+        };
+
+        myChart.setOption(option);
+
+        // Marcar que el gráfico está listo
+        window.chartReady = true;
+      }
+
+      // Configuración del segundo gráfico ECharts (número de transacciones)
+      function initChart2() {
+        const chartDom2 = document.getElementById('chartContainer2');
+
+        // Si no existe el contenedor del segundo gráfico, salir
+        if (!chartDom2) {
+          console.log('No chart container 2 found, skipping chart 2 initialization');
+          return;
+        }
+
+        const myChart2 = echarts.init(chartDom2);
+
+        // Datos dinámicos que serán reemplazados
+        const yAxisData2 = {{yAxisData2}};
+        const incomeCountData = {{incomeCountData}};
+        const expenseCountData = {{expenseCountData}};
+
+        const option2 = {
+          legend: {
+            data: ['Egresos', 'Ingresos'],
+            textStyle: {
+              fontSize: 9,
+              color: '#12243F',
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '10%',
+            bottom: '5%',
+            top: '12%',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: 'value',
+              axisLabel: {
+                fontSize: 9,
+                color: '#12243F',
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'category',
+              axisLabel: {
+                margin: 5,
+                fontSize: 9,
+                color: '#12243F',
+                lineHeight: 12,
+                interval: 0
+              },
+              axisTick: {
+                show: false
+              },
+              data: yAxisData2
+            }
+          ],
+          series: [
+            {
+              name: 'Ingresos',
+              type: 'bar',
+              stack: 'Total',
+              color: '#80E0C7',
+              label: {
+                show: true,
+                position: 'inside',
+                fontSize: 9,
+                color: '#000000',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return params.value.toString();
+                }
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: incomeCountData,
+              itemStyle: {
+                borderRadius: [0, 5, 5, 0]
+              }
+            },
+            {
+              name: 'Egresos',
+              type: 'bar',
+              stack: 'Total',
+              color: '#FFB6BB',
+              label: {
+                show: true,
+                position: 'inside',
+                fontSize: 9,
+                color: '#000000',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return Math.abs(params.value).toString();
+                }
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: expenseCountData,
+              itemStyle: {
+                borderRadius: [5, 0, 0, 5]
+              }
+            }
+          ]
+        };
+
+        myChart2.setOption(option2);
+      }
+
+      // Configuración del tercer gráfico ECharts (rendimientos y costos por banco)
+      function initChart3() {
+        const chartDom3 = document.getElementById('chartContainer3');
+
+        // Si no existe el contenedor del tercer gráfico, salir
+        if (!chartDom3) {
+          console.log('No chart container 3 found, skipping chart 3 initialization');
+          return;
+        }
+
+        const myChart3 = echarts.init(chartDom3);
+
+        // Datos dinámicos que serán reemplazados
+        const bankNames = {{bankNames}};
+        const yieldsData = {{yieldsData}};
+        const costsData = {{costsData}};
+
+        const option3 = {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          legend: {
+            textStyle: {
+              fontSize: 9,
+              color: '#12243F',
+
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '12%',
+            bottom: '3%',
+            top: '10%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01],
+            axisLabel: {
+              fontSize: 9,
+              color: '#12243F',
+
+            }
+          },
+          yAxis: {
+            type: 'category',
+            data: bankNames,
+            axisLabel: {
+              fontSize: 9,
+              color: '#12243F',
+
+            }
+          },
+          series: [
+            {
+              name: 'Rendimientos',
+              type: 'bar',
+              color: '#80E0C7',
+              label: {
+                show: true,
+                position: 'right',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              data: yieldsData,
+              itemStyle: {
+                borderRadius: [0, 5, 5, 0]
+              }
+            },
+            {
+              name: 'Costos',
+              type: 'bar',
+              color: '#FFB6BB',
+              label: {
+                show: true,
+                position: 'right',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              data: costsData,
+              itemStyle: {
+                borderRadius: [0, 5, 5, 0]
+              }
+            }
+          ]
+        };
+
+        myChart3.setOption(option3);
+      }
+
+      // Configuración del cuarto gráfico ECharts (rentabilidad neta por banco)
+      function initChart4() {
+        const chartDom4 = document.getElementById('chartContainer4');
+
+        // Si no existe el contenedor del cuarto gráfico, salir
+        if (!chartDom4) {
+          console.log('No chart container 4 found, skipping chart 4 initialization');
+          return;
+        }
+
+        const myChart4 = echarts.init(chartDom4);
+
+        // Datos dinámicos que serán reemplazados
+        const netRevenueBankNames = {{netRevenueBankNames}};
+        const positiveNetRevenueData = {{positiveNetRevenueData}};
+        const negativeNetRevenueData = {{negativeNetRevenueData}};
+
+        const option4 = {
+          grid: {
+            left: '3%',
+            right: '8%',
+            bottom: '3%',
+            top: '10%',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              type: 'value',
+              axisLabel: {
+                fontSize: 9,
+                color: '#12243F',
+
+                formatter: function (value) {
+                  return value.toLocaleString() + '%';
+                }
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'category',
+              axisTick: {
+                show: false
+              },
+              data: netRevenueBankNames,
+              axisLabel: {
+                fontSize: 9,
+                color: '#12243F',
+
+              }
+            }
+          ],
+          series: [
+            {
+              name: 'Rentabilidad Positiva',
+              type: 'bar',
+              stack: 'Total',
+              color: '#80E0C7',
+              label: {
+                show: true,
+                position: 'inside',
+                fontSize: 9,
+                color: '#000000',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return params.value.toLocaleString() + '%';
+                }
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: positiveNetRevenueData,
+              itemStyle: {
+                borderRadius: [0, 5, 5, 0]
+              }
+            },
+            {
+              name: 'Rentabilidad Negativa',
+              type: 'bar',
+              color: '#FFB6BB',
+              stack: 'Total',
+              label: {
+                show: true,
+                position: 'inside',
+                fontSize: 9,
+                color: '#000000',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return params.value.toLocaleString() + '%';
+                }
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: negativeNetRevenueData,
+              itemStyle: {
+                borderRadius: [5, 0, 0, 5]
+              }
+            }
+          ]
+        };
+
+        myChart4.setOption(option4);
+      }
+
+      // Configuración del quinto gráfico ECharts (predicciones de ingresos, egresos y flujo de caja)
+      function initChart5() {
+        const chartDom5 = document.getElementById('chartContainer5');
+
+        // Si no existe el contenedor del quinto gráfico, salir
+        if (!chartDom5) {
+          console.log('No chart container 5 found, skipping chart 5 initialization');
+          return;
+        }
+
+        const myChart5 = echarts.init(chartDom5);
+
+        // Datos dinámicos que serán reemplazados
+        const predictionPeriods = {{predictionPeriods}};
+        const predictionIncomeData = {{predictionIncomeData}};
+        const predictionExpenseData = {{predictionExpenseData}};
+        const predictionCashFlowData = {{predictionCashFlowData}};
+        const incomeLabel = {{incomeLabel}};
+        const expenseLabel = {{expenseLabel}};
+        const cashFlowLabel = {{cashFlowLabel}};
+
+        const option5 = {
+          legend: {
+            top: 'top',
+            left: 'center',
+            orient: 'horizontal',
+            data: [incomeLabel, expenseLabel, cashFlowLabel],
+            textStyle: {
+              fontSize: 9,
+              color: '#12243F',
+
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '12%',
+            bottom: '3%',
+            top: '20%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: predictionPeriods,
+            axisLabel: {
+              fontSize: 9,
+              color: '#12243F',
+              margin: 8
+            }
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              margin: 10,
+              fontSize: 9,
+              color: '#12243F'
+            }
+          },
+          series: [
+            {
+              name: incomeLabel,
+              label: {
+                show: true,
+                position: 'top',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              type: 'line',
+              symbol: 'diamond',
+              symbolSize: 15,
+              itemStyle: {
+                color: '#80E0C7'
+              },
+              lineStyle: {
+                color: '#80E0C7',
+                width: 4
+              },
+              data: predictionIncomeData
+            },
+            {
+              name: expenseLabel,
+              label: {
+                show: true,
+                position: 'top',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              type: 'line',
+              symbol: 'diamond',
+              symbolSize: 15,
+              itemStyle: {
+                color: '#FFB6BB'
+              },
+              lineStyle: {
+                color: '#FFB6BB',
+                width: 4
+              },
+              data: predictionExpenseData
+            },
+            {
+              name: cashFlowLabel,
+              label: {
+                show: true,
+                position: 'top',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              type: 'line',
+              symbol: 'diamond',
+              symbolSize: 15,
+              itemStyle: {
+                color: '#AADADF'
+              },
+              lineStyle: {
+                color: '#AADADF',
+                width: 4
+              },
+              data: predictionCashFlowData
+            }
+          ]
+        };
+
+        myChart5.setOption(option5);
+      }
+
+      // Configuración del sexto gráfico ECharts (predicciones de rendimientos, costos y rentabilidad neta)
+      function initChart6() {
+        const chartDom6 = document.getElementById('chartContainer6');
+
+        // Si no existe el contenedor del sexto gráfico, salir
+        if (!chartDom6) {
+          console.log('No chart container 6 found, skipping chart 6 initialization');
+          return;
+        }
+
+        const myChart6 = echarts.init(chartDom6);
+
+        // Datos dinámicos que serán reemplazados
+        const yieldsPredictionPeriods = {{yieldsPredictionPeriods}};
+        const yieldsPredictionData = {{yieldsPredictionData}};
+        const costsPredictionData = {{costsPredictionData}};
+        const netProfitPredictionData = {{netProfitPredictionData}};
+        const yieldsLabel = {{yieldsLabel}};
+        const costsLabel = {{costsLabel}};
+        const netProfitLabel = {{netProfitLabel}};
+
+        const option6 = {
+          legend: {
+            top: 'top',
+            left: 'center',
+            orient: 'horizontal',
+            data: [yieldsLabel, costsLabel, netProfitLabel],
+            textStyle: {
+              fontSize: 9,
+              color: '#12243F'
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '12%',
+            bottom: '3%',
+            top: '20%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: yieldsPredictionPeriods,
+            axisLabel: {
+              fontSize: 9,
+              color: '#12243F',
+              margin: 40
+            }
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              margin: 40,
+              fontSize: 9,
+              color: '#12243F'
+            }
+          },
+          series: [
+            {
+              name: yieldsLabel,
+              label: {
+                show: true,
+                position: 'top',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              type: 'line',
+              symbol: 'diamond',
+              symbolSize: 15,
+              itemStyle: {
+                color: '#80E0C7'
+              },
+              lineStyle: {
+                color: '#80E0C7',
+                width: 4
+              },
+              data: yieldsPredictionData
+            },
+            {
+              name: costsLabel,
+              label: {
+                show: true,
+                position: 'top',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              type: 'line',
+              symbol: 'diamond',
+              symbolSize: 15,
+              itemStyle: {
+                color: '#FFB6BB'
+              },
+              lineStyle: {
+                color: '#FFB6BB',
+                width: 4
+              },
+              data: costsPredictionData
+            },
+            {
+              name: netProfitLabel,
+              label: {
+                show: true,
+                position: 'top',
+                fontSize: 9,
+                color: '#12243F',
+                textBorderColor: '#FFFFFF',
+                textBorderWidth: 4,
+                formatter: function (params) {
+                  return '$' + params.value.toLocaleString();
+                }
+              },
+              type: 'line',
+              symbol: 'diamond',
+              symbolSize: 15,
+              itemStyle: {
+                color: '#AADADF'
+              },
+              lineStyle: {
+                color: '#AADADF',
+                width: 4
+              },
+              data: netProfitPredictionData
+            }
+          ]
+        };
+
+        myChart6.setOption(option6);
+      }
+
+      // Inicializar cuando el DOM esté listo
+      document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar todos los gráficos
+        initChart();
+        initChart2();
+        initChart3();
+        initChart4();
+        initChart5();
+        initChart6();
+      });
+    </script>
+  </body>
+</html>

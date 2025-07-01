@@ -1,0 +1,60 @@
+# Build stage
+FROM public.ecr.aws/docker/library/node:20-slim AS builder
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Development stage
+FROM public.ecr.aws/docker/library/node:20-slim AS dev
+
+WORKDIR /app
+
+# Install system dependencies for Puppeteer/Chromium
+RUN apt-get update && \
+    apt-get install -y \
+    chromium \
+    fonts-ipafont-gothic \
+    fonts-wqy-zenhei \
+    fonts-thai-tlwg \
+    fonts-freefont-ttf \
+    libxss1 \
+    libasound2 \
+    libatk1.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libgdk-pixbuf2.0-0 \
+    libnspr4 \
+    libnss3 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    xdg-utils \
+    libu2f-udev \
+    libvulkan1 \
+    libxshmfence1 \
+    libgbm1 \
+    libgtk-3-0 \
+    --no-install-recommends && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy node_modules and source code from builder
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app .
+
+# Set environment variables
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV NODE_ENV=development
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
