@@ -52,6 +52,7 @@ RUN apt-get update && \
 # Copy built application
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/template ./template
+COPY --from=builder /app/esbuild.config.js ./esbuild.config.js
 
 # Install production dependencies
 COPY package*.json ./
