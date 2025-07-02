@@ -71,4 +71,15 @@ if (process.env.NODE_ENV !== "production") {
     fetch: app.fetch,
     port,
   });
+} else {
+  // For production (EC2)
+  const port = process.env.PORT || 3004;
+  console.log(
+    `🚀 FinTrace PDF Generator starting in production mode on port ${port}`
+  );
+
+  serve({
+    fetch: app.fetch,
+    port: parseInt(port.toString()),
+  });
 }

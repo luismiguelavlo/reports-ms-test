@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "build": "node esbuild.config.js",
+    "build": "node build-debug.js",
     "zip": "zip -j lambda.zip dist/index.js",
     "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
     "deploy": "run-s build zip update",
