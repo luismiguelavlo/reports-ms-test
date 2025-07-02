@@ -49,9 +49,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy built application
+# Copy built application and source code
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/src/template ./template
+COPY --from=builder /app/src ./src
 COPY --from=builder /app/esbuild.config.js ./esbuild.config.js
 
 # Install production dependencies
