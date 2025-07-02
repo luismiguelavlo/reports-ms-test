@@ -8,7 +8,7 @@ services:
       - "3200:3000"
     environment:
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
     # Si necesitas montar archivos locales, descomenta:
     # volumes:
     #   - ./src/template:/app/src/template

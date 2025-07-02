@@ -10,7 +10,7 @@ services:
     environment:
       - NODE_ENV=production
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
       - PORT=3004
     restart: unless-stopped
     healthcheck:
@@ -33,7 +33,7 @@ services:
     environment:
       - NODE_ENV=production
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
       - PORT=3004
     restart: unless-stopped
     healthcheck:
@@ -56,7 +56,7 @@ services:
     environment:
       - NODE_ENV=production
       - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
       - PORT=3004
     restart: unless-stopped
     healthcheck:
