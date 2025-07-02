@@ -27,7 +27,7 @@ services:
       context: .
       dockerfile: Dockerfile.ec2
     image: fintrace-ec2:latest
-    container_name: fintrace-ec2
+    container_name: fintrace-ec2-2
     ports:
       - "3005:3004"
     environment:
@@ -50,7 +50,7 @@ services:
       context: .
       dockerfile: Dockerfile.ec2
     image: fintrace-ec2:latest
-    container_name: fintrace-ec2
+    container_name: fintrace-ec2-3
     ports:
       - "3006:3004"
     environment:
