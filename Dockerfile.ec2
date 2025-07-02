@@ -20,10 +20,9 @@ FROM public.ecr.aws/docker/library/node:20-slim
 
 WORKDIR /app
 
-# Install system dependencies and Chromium
+# Install system dependencies (no Chromium - will use host's Chromium)
 RUN apt-get update && \
     apt-get install -y \
-    chromium \
     fonts-ipafont-gothic \
     fonts-wqy-zenhei \
     fonts-thai-tlwg \
@@ -61,7 +60,7 @@ RUN npm ci --only=production
 
 # Set environment variables
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 ENV NODE_ENV=production
 ENV PORT=3004
 

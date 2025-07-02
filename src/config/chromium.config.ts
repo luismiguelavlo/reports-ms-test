@@ -14,7 +14,8 @@ const developmentConfig = {
     "--disable-extensions",
   ],
   defaultViewport: { width: 1200, height: 800 },
-  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/chromium",
+  executablePath:
+    process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome-stable",
   headless: true,
 };
 
@@ -70,7 +71,8 @@ export const chromiumConfig = {
     "--disable-renderer-backgrounding",
   ],
   defaultViewport: { width: 1200, height: 800 },
-  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/chromium",
+  executablePath:
+    process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome-stable",
   headless: true,
 };
 
