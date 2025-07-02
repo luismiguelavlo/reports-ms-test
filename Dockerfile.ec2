@@ -20,9 +20,11 @@ FROM public.ecr.aws/docker/library/node:20-slim
 
 WORKDIR /app
 
-# Install system dependencies (no Chromium - will use host's Chromium)
+# Install system dependencies and Google Chrome
 RUN apt-get update && \
     apt-get install -y \
+    wget \
+    gnupg \
     fonts-ipafont-gothic \
     fonts-wqy-zenhei \
     fonts-thai-tlwg \
@@ -45,6 +47,11 @@ RUN apt-get update && \
     libgbm1 \
     libgtk-3-0 \
     --no-install-recommends && \
+    # Install Google Chrome
+    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
