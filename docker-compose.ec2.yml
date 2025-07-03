@@ -7,11 +7,8 @@ services:
     container_name: fintrace-ec2
     ports:
       - "3004:3004"
-    environment:
-      - NODE_ENV=production
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-      - PORT=3004
+    env_file:
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
@@ -30,11 +27,8 @@ services:
     container_name: fintrace-ec2-2
     ports:
       - "3005:3004"
-    environment:
-      - NODE_ENV=production
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-      - PORT=3004
+    env_file:
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
@@ -53,11 +47,8 @@ services:
     container_name: fintrace-ec2-3
     ports:
       - "3006:3004"
-    environment:
-      - NODE_ENV=production
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
-      - PORT=3004
+    env_file:
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3006/health"]

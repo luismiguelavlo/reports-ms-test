@@ -6,9 +6,8 @@ services:
     container_name: fintrace-api
     ports:
       - "3200:3000"
-    environment:
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+    env_file:
+      - .env
     # Si necesitas montar archivos locales, descomenta:
     # volumes:
     #   - ./src/template:/app/src/template
