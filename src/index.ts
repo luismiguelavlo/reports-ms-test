@@ -1,11 +1,15 @@
 import { Hono } from "hono";
 import { handle } from "hono/aws-lambda";
 import { serve } from "@hono/node-server";
+import { cors } from "hono/cors";
 import { validateBody } from "./middleware/validation.middleware.js";
 import { financeReportSchema } from "./schemas/financeReport.schema.js";
 import { pdfController } from "./controller/pdf.controller.js";
 
 const app = new Hono();
+
+// CORS configuration
+app.use(cors());
 
 // Health check endpoint
 app.get("/v1/reports/health", (c) => {
