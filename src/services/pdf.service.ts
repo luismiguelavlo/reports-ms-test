@@ -1214,30 +1214,6 @@ export class PDFService {
   }
 
   /**
-   * Genera el HTML del reporte para preview (sin generar PDF)
-   * @param reportData - Datos validados del reporte financiero
-   * @returns HTML procesado
-   */
-  async generatePreviewHTML(reportData: FinanceReportInput): Promise<string> {
-    try {
-      // Leer el template HTML
-      const htmlTemplate = this.loadTemplate();
-
-      // Procesar los datos y generar HTML
-      const htmlContent = this.processTemplate(htmlTemplate, reportData);
-
-      return htmlContent;
-    } catch (error) {
-      console.error("Error generating preview HTML:", error);
-      throw new Error(
-        `Failed to generate preview HTML: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
-    }
-  }
-
-  /**
    * Genera el nombre del archivo PDF basado en los datos del reporte
    * @param reportData - Datos del reporte
    * @returns Nombre del archivo

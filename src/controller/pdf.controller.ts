@@ -1,7 +1,8 @@
 import { Context } from "hono";
 import { PDFService } from "../services/pdf.service.js";
-import { getValidatedData } from "../middleware/validation.middleware.js";
-import { FinanceReportInput } from "../schemas/financeReport.schema.js";
+import axios from "axios";
+import { envs } from "../config/envs.js";
+import { generateServiceToken } from "../config/encrypt-key.js";
 
 export class PDFController {
   private pdfService: PDFService;
@@ -16,6 +17,37 @@ export class PDFController {
    * @returns Response con el PDF generado
    */
   async generateFinanceReport(c: Context) {
+    const frequency = c.req.query("frequency") as
+      | "monthly"
+      | "quarterly"
+      | "annual"
+      | undefined;
+    const year = c.req.query("year")
+      ? parseInt(c.req.query("year") as string)
+      : undefined;
+    const month = c.req.query("month")
+      ? parseInt(c.req.query("month") as string)
+      : undefined;
+    const quarter = c.req.query("quarter")
+      ? parseInt(c.req.query("quarter") as string)
+      : undefined;
+
+    // Validar los parámetros si es necesario
+    if (frequency && !["monthly", "quarterly", "annual"].includes(frequency)) {
+      return c.json({ error: "Invalid frequency parameter" }, 400);
+    }
+
+    if (year && (year < 2000 || year > 2100)) {
+      return c.json({ error: "Invalid year parameter" }, 400);
+    }
+
+    if (month && (month < 1 || month > 12)) {
+      return c.json({ error: "Invalid month parameter" }, 400);
+    }
+
+    if (quarter && (quarter < 1 || quarter > 4)) {
+      return c.json({ error: "Invalid quarter parameter" }, 400);
+    }
     try {
       // Obtener datos validados del middleware
       const reportData = {
@@ -594,185 +626,25 @@ export class PDFController {
     }
   }
 
-  /**
-   * Genera un preview HTML del reporte (útil para debugging)
-   * @param c - Contexto de Hono con datos validados
-   * @returns Response con HTML del reporte
-   */
-  async previewFinanceReport(c: Context) {
-    try {
-      // Obtener datos validados del middleware
-      const reportData = getValidatedData<FinanceReportInput>(c);
+  async getData(c: Context) {
+    const clientId = c.req.param("clientId");
 
-      // Generar HTML usando métodos internos del service
-      const htmlContent = await this.generatePreviewHTML(reportData);
+    const token = await generateServiceToken(
+      { service: "ia-ms" },
+      envs.SECRET_AES_IA_MS,
+      envs.SECRET_JWT_IA_MS
+    );
 
-      return c.html(htmlContent);
-    } catch (error) {
-      console.error("Error in preview controller:", error);
+    const headers = token ? { "x-token": token } : {};
 
-      return c.json(
-        {
-          success: false,
-          error: "Internal server error",
-          details: error instanceof Error ? error.message : "Unknown error",
-          timestamp: new Date().toISOString(),
-        },
-        500
-      );
-    }
-  }
+    const response = await axios.get(
+      `${envs.FINTRACE_API_IA_MS_URL}/report/${clientId}`,
+      { headers }
+    );
 
-  /**
-   * Obtiene información de ejemplo para el schema
-   * @param c - Contexto de Hono
-   * @returns Response con datos de ejemplo
-   */
-  async getExampleData(c: Context) {
-    const exampleData: FinanceReportInput = {
-      reportHeader:
-        "Reporte financiero FinTrace\n\nFecha de generación: 06/06/2025\n\nPeriodicidad: mensual\n\nPeriodo analizado:\n01/05/2025 - 31/05/2025\n",
-      balanceReport: {
-        header:
-          "\nReporte de saldos:\nA continuación se presenta el resumen del saldo consolidado de 23 cuentas en 4 bancos.\n- Saldo final: $35,714,556,119.43\n- Variación porcentual: 11.24%\n",
-        tables: [
-          {
-            header:
-              "En la siguiente tabla se presenta información de los saldos de las principales cuentas:",
-            table: [
-              {
-                bank: "BANCO DE OCCIDENTE",
-                accountNumber: "7795929886",
-                accountName: "BANCO DE OCCIDENTE Prueba 7795929886",
-                accountType: "AHORROS",
-                finalBalance: "$5,967,178,670",
-                percentVariation: "11.17%",
-                porcentajeSaldo: "16.71%",
-              },
-              {
-                bank: "BANCO DAVIVIENDA",
-                accountNumber: "1651825769",
-                accountName: "BANCO DAVIVIENDA Prueba 1651825769",
-                accountType: "AHORROS",
-                finalBalance: "$5,404,969,742",
-                percentVariation: "66.27%",
-                porcentajeSaldo: "15.13%",
-              },
-            ],
-          },
-        ],
-      },
-      incomeExpensesReport: {
-        header:
-          "Resumen consolidado de ingresos y gastos:\n- Ingresos: $28,936,170,246.55 (4.23%)\n- Gastos: $25,327,136,699.57 (-50.5%)\n- Flujo de caja: $3,609,033,546.98 (115.42%)\n",
-        results: [
-          {
-            header: "Cuentas con mayor cantidad de transacciones:",
-            data: [
-              {
-                accountName: "BANCOLOMBIA Prueba 0559768962",
-                accountNumber: "0559768962",
-                countExpense: 149,
-                countIncome: 25,
-                expense: "$10,198,510,535",
-                income: "$11,816,280,128",
-              },
-              {
-                accountName: "BANCO DAVIVIENDA Prueba 4484052696",
-                accountNumber: "4484052696",
-                countExpense: 59,
-                countIncome: 4,
-                expense: "$820,953,970",
-                income: "$740,130,519",
-              },
-            ],
-          },
-        ],
-      },
-      yieldsCostsReport: {
-        header:
-          "Resumen consolidado de rendimientos y costos:\n- Rendimientos: $101,207,578.89\n- Costos: $51,233,991.65\n- Rentabilidad neta: $49,973,587.24\n",
-        results: [
-          {
-            header: "Rendimientos y costos por banco:",
-            data: [
-              {
-                bank: "BANCO DE OCCIDENTE",
-                yields: "$35,668,005",
-                costs: "$1,611,158",
-                netRevenue: "$34,056,847",
-                netRevenueRate: "2.00%",
-              },
-            ],
-          },
-        ],
-      },
-      predictionsReport: {
-        header:
-          "Predicciones para periodos futuros basadas en comportamiento histórico.\n*Las predicciones son estimaciones.\n",
-        predictions: [
-          {
-            metric: "income",
-            "Jun-2025": "$21,106,507,776",
-            "Jul-2025": "$19,566,114,816",
-            "Ago-2025": "$19,973,058,560",
-            "Sep-2025": "$19,633,068,032",
-            "Oct-2025": "$20,427,995,136",
-            "Nov-2025": "$20,474,091,520",
-            precision: "92.53%",
-          },
-        ],
-      },
-      aiResponse: {
-        positiveFindings: [
-          "El saldo consolidado creció 11.24% respecto al periodo anterior.",
-          "El flujo de caja fue positivo y se incrementó 115.42%.",
-        ],
-        negativeFindings: [
-          "BANCOLOMBIA presentó rentabilidad neta negativa.",
-          "Algunos gastos concentrados impactan el flujo de caja.",
-        ],
-        insights: [
-          "El crecimiento se explica por aumento de ingresos y reducción de gastos.",
-          "Las cuentas con mayor actividad son críticas para liquidez.",
-        ],
-        recommendations: [
-          "Revisar y renegociar principales rubros de gasto.",
-          "Redistribuir fondos hacia cuentas con mejor rentabilidad.",
-        ],
-        bankAnalysis: [
-          {
-            bankName: "BANCO DE OCCIDENTE",
-            analysis:
-              "Presenta un desempeño financiero sólido con alto saldo y crecimiento estable.",
-          },
-        ],
-      },
-    };
+    console.log("response", response);
 
-    return c.json({
-      success: true,
-      message: "Ejemplo de datos para el reporte financiero",
-      exampleData,
-      instructions: {
-        endpoint: "POST /api/finance-report/generate-pdf",
-        contentType: "application/json",
-        note: "Envía datos siguiendo exactamente esta estructura para generar el PDF",
-      },
-      timestamp: new Date().toISOString(),
-    });
-  }
-
-  /**
-   * Método privado para generar HTML de preview
-   * @param reportData - Datos del reporte
-   * @returns HTML procesado
-   */
-  private async generatePreviewHTML(
-    reportData: FinanceReportInput
-  ): Promise<string> {
-    // Usar el método público del service
-    return this.pdfService.generatePreviewHTML(reportData);
+    return c.json({ data: response.data });
   }
 }
 
