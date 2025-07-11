@@ -6,6 +6,8 @@ import { envs } from "../config/envs";
 export const validationTokenMiddleware = async (c: Context, next: Next) => {
   const token = c.req.header("x-token");
 
+  console.log("token", token);
+
   if (!token) {
     return c.json({ message: "token is required" }, 401);
   }
