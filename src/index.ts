@@ -37,8 +37,9 @@ api.get("/example", validationTokenMiddleware, (c) =>
 );
 
 // Generar PDF del reporte financiero (con validación)
-api.get("/generate-pdf", validationTokenMiddleware, (c) =>
-  pdfController.generateFinanceReport(c)
+api.get(
+  "/generate-pdf",
+  /*validationTokenMiddleware,*/ (c) => pdfController.generateFinanceReport(c)
 );
 
 // Preview HTML del reporte (con validación)
