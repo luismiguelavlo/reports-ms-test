@@ -65,13 +65,14 @@ app.get("/generate-pdf", validationTokenMiddleware, (c) =>
 
 app.post(
   "/preview-html",
-  validationTokenMiddleware,
+  /*validationTokenMiddleware,*/
   validateBody(financeReportSchema),
   (c) => pdfController.previewFinanceReport(c)
 );
 
-app.get("/get-data/:clientId", validationTokenMiddleware, (c) =>
-  pdfController.getData(c)
+app.post(
+  "/get-data",
+  /*validationTokenMiddleware,*/ (c) => pdfController.getData(c)
 );
 
 // Export handler for Lambda

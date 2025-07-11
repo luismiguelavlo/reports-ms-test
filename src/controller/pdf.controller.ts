@@ -777,9 +777,9 @@ export class PDFController {
     // Usar el método público del service
     return this.pdfService.generatePreviewHTML(reportData);
   }
-
   async getData(c: Context) {
-    const clientId = c.req.param("clientId");
+    const clientId = await c.req.json().then((data) => data.clientId);
+    console.log("clientId", clientId);
 
     const token = await generateServiceToken(
       { service: "report-ms" },
