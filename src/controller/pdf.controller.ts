@@ -2,6 +2,9 @@ import { Context } from "hono";
 import { PDFService } from "../services/pdf.service.js";
 import { getValidatedData } from "../middleware/validation.middleware.js";
 import { FinanceReportInput } from "../schemas/financeReport.schema.js";
+import { generateServiceToken } from "../config/encrypt-key.js";
+import { envs } from "../config/envs.js";
+import axios from "axios";
 
 export class PDFController {
   private pdfService: PDFService;
@@ -773,6 +776,27 @@ export class PDFController {
   ): Promise<string> {
     // Usar el método público del service
     return this.pdfService.generatePreviewHTML(reportData);
+  }
+
+  async getData(c: Context) {
+    const clientId = c.req.param("clientId");
+
+    const token = await generateServiceToken(
+      { service: "report-ms" },
+      envs.SECRET_AES_IA_MS,
+      envs.SECRET_JWT_IA_MS
+    );
+
+    const headers = token ? { "x-token": token } : {};
+
+    const response = await axios.get(
+      `${envs.FINTRACE_API_IA_MS_URL}/report/${clientId}`,
+      { headers }
+    );
+
+    console.log("response", response);
+
+    return c.json({ data: response.data });
   }
 }
 
