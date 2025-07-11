@@ -55,8 +55,9 @@ app.get("/example-data", validationTokenMiddleware, (c) =>
   pdfController.getExampleData(c)
 );
 
-app.get("/generate-pdf", validationTokenMiddleware, (c) =>
-  pdfController.generateFinanceReport(c)
+app.get(
+  "/generate-pdf",
+  /*validationTokenMiddleware,*/ (c) => pdfController.generateFinanceReport(c)
 );
 
 app.post(
