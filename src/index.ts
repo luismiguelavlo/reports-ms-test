@@ -6,8 +6,12 @@ import { validateBody } from "./middleware/validation.middleware.js";
 import { financeReportSchema } from "./schemas/financeReport.schema.js";
 import { pdfController } from "./controller/pdf.controller.js";
 import { validationTokenMiddleware } from "./middleware/validation-token.middleware.js";
+import { logger } from "hono/logger";
 
 const app = new Hono();
+
+// Usa el logger de Hono
+app.use("*", logger());
 
 // CORS configuration
 app.use(cors());
@@ -55,9 +59,8 @@ app.get("/example-data", validationTokenMiddleware, (c) =>
   pdfController.getExampleData(c)
 );
 
-app.get(
-  "/generate-pdf",
-  /*validationTokenMiddleware,*/ (c) => pdfController.generateFinanceReport(c)
+app.get("/generate-pdf", validationTokenMiddleware, (c) =>
+  pdfController.generateFinanceReport(c)
 );
 
 app.post(

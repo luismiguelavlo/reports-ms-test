@@ -787,11 +787,9 @@ export class PDFController {
       envs.SECRET_JWT_IA_MS
     );
 
-    const headers = token ? { "x-token": token } : {};
-
     const response = await axios.get(
       `${envs.FINTRACE_API_IA_MS_URL}/report/${clientId}`,
-      { headers }
+      { headers: { "x-token": token } }
     );
 
     console.log("response", response);
